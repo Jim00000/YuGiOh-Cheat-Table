@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="31">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>96</ID>
+      <Description>"---------- Cheat Table made by Jim00000 ----------"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"HP Initialization (Both Player and AI)"</Description>
+      <LastState Value="8000" RealAddress="140C8D370"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>YuGiOh.exe+C8D370</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"----- AI -----"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>9</ID>
+          <Description>"HP Bar"</Description>
+          <LastState Value="8000" RealAddress="142793538"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>142793538</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>93</ID>
+          <Description>"Critical Health Point "</Description>
+          <LastState Value="0" RealAddress="14342A340"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>YuGiOh.exe+342A340</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>12</ID>
+      <Description>"----- Human Player -----"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"HP Bar"</Description>
+          <LastState Value="8000" RealAddress="142791230"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>YuGiOh.exe+2791230</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>38</ID>
+          <Description>"Critical Health Point (only appear in player's turn)"</Description>
+          <LastState Value="8000" RealAddress="1434262E0"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>YuGiOh.exe+34262E0</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>45</ID>
+      <Description>"---------- Script ----------"</Description>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>46</ID>
+          <Description>"Human player will not lose the duel (even though HP bar shows 0)"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+
+aobscanmodule(HP_INJECTION,YuGiOh.exe,89 4B FC 48 8D 4F C8) // should be unique
+alloc(newmem,$1000,"YuGiOh.exe"+311CB7)
+
+label(code)
+label(return)
+
+registersymbol(HP_INJECTION)
+
+newmem:
+
+  cmp ebx, YuGiOh.exe+34262E4
+  jne code
+  mov ecx, #9999999
+
+code:
+  mov [rbx-04],ecx
+  lea rcx,[rdi-38]
+  jmp return
+
+HP_INJECTION:
+  jmp newmem
+  nop 2
+return:
+
+[DISABLE]
+
+HP_INJECTION:
+  db 89 4B FC 48 8D 4F C8
+
+unregistersymbol(HP_INJECTION)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "YuGiOh.exe"+311CB7
+
+"YuGiOh.exe"+311C85: 66 66 66 0F 1F 84 00 00 00 00 00  -  nop word ptr [rax+rax+00000000]
+"YuGiOh.exe"+311C90: 48 8B C5                          -  mov rax,rbp
+"YuGiOh.exe"+311C93: 48 8D 7B 40                       -  lea rdi,[rbx+40]
+"YuGiOh.exe"+311C97: 83 E0 01                          -  and eax,01
+"YuGiOh.exe"+311C9A: 41 B8 38 00 00 00                 -  mov r8d,00000038
+"YuGiOh.exe"+311CA0: 4C 69 F0 94 0D 00 00              -  imul r14,rax,00000D94
+"YuGiOh.exe"+311CA7: 0F B7 05 D2 E5 01 03              -  movzx eax,word ptr [YuGiOh.exe+3330280]
+"YuGiOh.exe"+311CAE: 49 8B D7                          -  mov rdx,r15
+"YuGiOh.exe"+311CB1: 43 8B 0C 2E                       -  mov ecx,[r14+r13]
+"YuGiOh.exe"+311CB5: 33 C8                             -  xor ecx,eax
+// ---------- INJECTING HERE ----------
+"YuGiOh.exe"+311CB7: 89 4B FC                          -  mov [rbx-04],ecx
+"YuGiOh.exe"+311CBA: 48 8D 4F C8                       -  lea rcx,[rdi-38]
+// ---------- DONE INJECTING  ----------
+"YuGiOh.exe"+311CBE: 43 0F B6 44 2E 04                 -  movzx eax,byte ptr [r14+r13+04]
+"YuGiOh.exe"+311CC4: 88 47 C5                          -  mov [rdi-3B],al
+"YuGiOh.exe"+311CC7: E8 04 C1 49 00                    -  call YuGiOh.exe+7ADDD0
+"YuGiOh.exe"+311CCC: BA 58 02 00 00                    -  mov edx,00000258
+"YuGiOh.exe"+311CD1: 48 8B CF                          -  mov rcx,rdi
+"YuGiOh.exe"+311CD4: E8 07 C1 49 00                    -  call YuGiOh.exe+7ADDE0
+"YuGiOh.exe"+311CD9: 43 8B 44 2E 0C                    -  mov eax,[r14+r13+0C]
+"YuGiOh.exe"+311CDE: 33 03                             -  xor eax,[rbx]
+"YuGiOh.exe"+311CE0: 83 E0 7F                          -  and eax,7F
+"YuGiOh.exe"+311CE3: 31 03                             -  xor [rbx],eax
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>95</ID>
+          <Description>"AI player lose the duel (make HP of AI becomes 0)"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+
+aobscanmodule(AI_HP_INJECTION,YuGiOh.exe,8B 4B FC 48 8D 7B 40) // should be unique
+alloc(newmem,$1000,"YuGiOh.exe"+311F00)
+
+label(code)
+label(return)
+
+registersymbol(AI_HP_INJECTION)
+
+newmem:
+  cmp ebx, YuGiOh.exe+342A344
+  jne code
+  mov [rbx-04], #0
+
+code:
+  mov ecx,[rbx-04]
+  lea rdi,[rbx+40]
+  jmp return
+
+AI_HP_INJECTION:
+  jmp newmem
+  nop 2
+return:
+
+[DISABLE]
+
+AI_HP_INJECTION:
+  db 8B 4B FC 48 8D 7B 40
+
+unregistersymbol(AI_HP_INJECTION)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "YuGiOh.exe"+311F00
+
+"YuGiOh.exe"+311ECD: B9 FF FF FF FF           -  mov ecx,FFFFFFFF
+"YuGiOh.exe"+311ED2: E8 09 CC 0D 00           -  call YuGiOh.exe+3EEAE0
+"YuGiOh.exe"+311ED7: 0F BF 43 04              -  movsx eax,word ptr [rbx+04]
+"YuGiOh.exe"+311EDB: 48 8D 35 12 65 18 03     -  lea rsi,[YuGiOh.exe+34983F4]
+"YuGiOh.exe"+311EE2: 33 ED                    -  xor ebp,ebp
+"YuGiOh.exe"+311EE4: 89 05 16 A1 18 03        -  mov [YuGiOh.exe+349C000],eax
+"YuGiOh.exe"+311EEA: 4C 8D 3D BB 10 02 03     -  lea r15,[YuGiOh.exe+3332FAC]
+"YuGiOh.exe"+311EF1: 48 83 C3 0C              -  add rbx,0C
+"YuGiOh.exe"+311EF5: 4C 8D 2D 44 5D 18 03     -  lea r13,[YuGiOh.exe+3497C40]
+"YuGiOh.exe"+311EFC: 44 8D 65 02              -  lea r12d,[rbp+02]
+// ---------- INJECTING HERE ----------
+"YuGiOh.exe"+311F00: 8B 4B FC                 -  mov ecx,[rbx-04]
+"YuGiOh.exe"+311F03: 48 8D 7B 40              -  lea rdi,[rbx+40]
+// ---------- DONE INJECTING  ----------
+"YuGiOh.exe"+311F07: 48 8B C5                 -  mov rax,rbp
+"YuGiOh.exe"+311F0A: 48 8D 57 C8              -  lea rdx,[rdi-38]
+"YuGiOh.exe"+311F0E: 83 E0 01                 -  and eax,01
+"YuGiOh.exe"+311F11: 41 B8 38 00 00 00        -  mov r8d,00000038
+"YuGiOh.exe"+311F17: 4C 69 F0 94 0D 00 00     -  imul r14,rax,00000D94
+"YuGiOh.exe"+311F1E: 0F B7 05 5B E3 01 03     -  movzx eax,word ptr [YuGiOh.exe+3330280]
+"YuGiOh.exe"+311F25: 33 C8                    -  xor ecx,eax
+"YuGiOh.exe"+311F27: 43 89 0C 2E              -  mov [r14+r13],ecx
+"YuGiOh.exe"+311F2B: 49 8B CF                 -  mov rcx,r15
+"YuGiOh.exe"+311F2E: 0F B6 47 C5              -  movzx eax,byte ptr [rdi-3B]
+}
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>2</ID>
+          <Description>"Hack Duel Points"</Description>
+          <Options moHideChildren="1"/>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>define(address,"YuGiOh.exe"+7F93E0)
+define(bytes,4C 8B 41 10 49 3B D0)
+
+[ENABLE]
+
+assert(address,bytes)
+alloc(newmem,$1000,"YuGiOh.exe"+7F93E0)
+
+label(code)
+label(return)
+label(DP_Address)
+
+registersymbol(DP_Address)
+
+newmem:
+  push rax
+  lea rax, [rcx+10]
+  mov [DP_Address], rax
+  pop rax
+
+code:
+  mov r8,[rcx+10]
+  cmp rdx,r8
+  jmp return
+
+DP_Address:
+  dq 0
+
+address:
+  jmp newmem
+  nop 2
+return:
+
+[DISABLE]
+
+address:
+  db bytes
+  // mov r8,[rcx+10]
+  // cmp rdx,r8
+
+unregistersymbol(DP_Address)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: "YuGiOh.exe"+7F93E0
+
+"YuGiOh.exe"+7F93CE: 41 0F 47 C0           -  cmova eax,r8d
+"YuGiOh.exe"+7F93D2: 41 3B C0              -  cmp eax,r8d
+"YuGiOh.exe"+7F93D5: 74 03                 -  je YuGiOh.exe+7F93DA
+"YuGiOh.exe"+7F93D7: 89 51 08              -  mov [rcx+08],edx
+"YuGiOh.exe"+7F93DA: C3                    -  ret 
+"YuGiOh.exe"+7F93DB: CC                    -  int 3 
+"YuGiOh.exe"+7F93DC: CC                    -  int 3 
+"YuGiOh.exe"+7F93DD: CC                    -  int 3 
+"YuGiOh.exe"+7F93DE: CC                    -  int 3 
+"YuGiOh.exe"+7F93DF: CC                    -  int 3 
+// ---------- INJECTING HERE ----------
+"YuGiOh.exe"+7F93E0: 4C 8B 41 10           -  mov r8,[rcx+10]
+"YuGiOh.exe"+7F93E4: 49 3B D0              -  cmp rdx,r8
+// ---------- DONE INJECTING  ----------
+"YuGiOh.exe"+7F93E7: 49 8B C0              -  mov rax,r8
+"YuGiOh.exe"+7F93EA: 48 0F 42 C2           -  cmovb rax,rdx
+"YuGiOh.exe"+7F93EE: 4C 2B C0              -  sub r8,rax
+"YuGiOh.exe"+7F93F1: 4C 89 41 10           -  mov [rcx+10],r8
+"YuGiOh.exe"+7F93F5: C3                    -  ret 
+"YuGiOh.exe"+7F93F6: CC                    -  int 3 
+"YuGiOh.exe"+7F93F7: CC                    -  int 3 
+"YuGiOh.exe"+7F93F8: CC                    -  int 3 
+"YuGiOh.exe"+7F93F9: CC                    -  int 3 
+"YuGiOh.exe"+7F93FA: CC                    -  int 3 
+}
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>3</ID>
+              <Description>"Duel Point"</Description>
+              <VariableType>4 Bytes</VariableType>
+              <Address>DP_Address</Address>
+              <Offsets>
+                <Offset>0</Offset>
+              </Offsets>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+</CheatTable>
